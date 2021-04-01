@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { authService } from "fbase";
+import { authService, firebaseInstance } from "fbase";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
@@ -40,6 +40,22 @@ const Auth = () => {
   };
 
   const toggleAccount = () => setNewAccount((prev) => !prev); // 이전과 반대되는 값을 반환
+  const onSocialClick = async (e) => {
+    const {
+      target: { name },
+    } = e;
+
+    let provider;
+    if (name === "google") {
+      provider = new firebaseInstance.auth.GoogleAuthProvider();
+    } else if (name === "github") {
+      provider = new firebaseInstance.auth.GithubAuthProvider();
+    } else if (name === "facebook") {
+      provider = new firebaseInstance.auth.FacebookAuthProvider();
+    }
+    const data = await authService.signInWithPopup(provider);
+    console.log(data);
+  };
 
   return (
     <div>
@@ -67,9 +83,15 @@ const Auth = () => {
         {newAccount ? "Sing In" : "Create Account"}
       </span>
       <div>
-        <button>Continue with Google</button>
-        <button>Continue with Github</button>
-        <button>Continue with Facebook</button>
+        <button onClick={onSocialClick} name="google">
+          Continue with Google
+        </button>
+        <button onClick={onSocialClick} name="github">
+          Continue with Github
+        </button>
+        <button onClick={onSocialClick} name="facebook">
+          Continue with Facebook
+        </button>
       </div>
     </div>
   );

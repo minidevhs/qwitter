@@ -35,17 +35,21 @@ const Qweet = ({ qweetObj, isOwner }) => {
     <div>
       {edit ? (
         <>
-          <form onSubmit={onSubmit}>
-            <input
-              onChange={onChange}
-              type="text"
-              placeholder="Edit your qweet"
-              value={newQweet}
-              required
-            />
-            <input type="submit" value="Update Qweet" />
-          </form>
-          <button onClick={toggleEditting}>Cancel</button>
+          {isOwner && (
+            <>
+              <form onSubmit={onSubmit}>
+                <input
+                  onChange={onChange}
+                  type="text"
+                  placeholder="Edit your qweet"
+                  value={newQweet}
+                  required
+                />
+                <input type="submit" value="Update Qweet" />
+              </form>
+              <button onClick={toggleEditting}>Cancel</button>
+            </>
+          )}
         </>
       ) : (
         <>

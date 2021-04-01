@@ -1,31 +1,29 @@
 import { dbService } from "fbase";
 import React, { useEffect, useState } from "react";
 
-const Home = () => {
+const Home = ({ userObj }) => {
   const [qweet, setQweet] = useState("");
   const [qweets, setQweets] = useState([]);
 
-  const getQweets = async () => {
-    const dbQweets = await dbService.collection("qweets").get();
-    dbQweets.forEach((document) => {
-      const qweetObject = {
-        ...document.data(),
-        id: document.id,
-      };
-      setQweets((prev) => [qweetObject, ...prev]);
-    });
-  };
-
   useEffect(() => {
-    getQweets();
+    dbService.collection("qweets").onSnapshot((snapshot) => {
+      const qweetArray = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setQweets(qweetArray);
+    });
   }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
     await dbService.collection("qweets").add({
-      qweet,
+      text: qweet,
       createdAt: Date.now(),
+      creatorId: userObj.uid,
     });
+
     setQweet("");
   };
 
@@ -36,13 +34,12 @@ const Home = () => {
     setQweet(value);
   };
 
-  console.log(qweets);
-
   return (
     <div>
       <form onSubmit={onSubmit}>
         <input
-          type={qweet}
+          value={qweet}
+          type="text"
           onChange={onChange}
           placeholder="What's on your mind?"
           maxLength={120}
@@ -52,7 +49,7 @@ const Home = () => {
       <div>
         {qweets.map((qweet) => (
           <div key={qweet.id}>
-            <h4>{qweet.qweet}</h4>
+            <h4>{qweet.text}</h4>
           </div>
         ))}
       </div>

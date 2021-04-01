@@ -1,5 +1,6 @@
 import { dbService } from "fbase";
 import React, { useEffect, useState } from "react";
+import Qweet from "components/Qweet";
 
 const Home = ({ userObj }) => {
   const [qweet, setQweet] = useState("");
@@ -48,9 +49,11 @@ const Home = ({ userObj }) => {
       </form>
       <div>
         {qweets.map((qweet) => (
-          <div key={qweet.id}>
-            <h4>{qweet.text}</h4>
-          </div>
+          <Qweet
+            key={qweet.id}
+            qweetObj={qweet}
+            isOwner={qweet.creatorId === userObj.uid}
+          />
         ))}
       </div>
     </div>

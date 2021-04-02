@@ -25,6 +25,7 @@ const Profile = ({ refreshUser, userObj }) => {
         displayName: newDisplayName,
       });
       refreshUser();
+      history.push("/");
     }
   };
 

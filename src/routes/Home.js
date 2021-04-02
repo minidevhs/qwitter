@@ -20,17 +20,26 @@ const Home = ({ userObj }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
-    const response = await fileRef.putString(attachment, "data_url");
-    console.log(response);
+    let attachmentUrl = "";
 
-    // await dbService.collection("qweets").add({
-    //   text: qweet,
-    //   createdAt: Date.now(),
-    //   creatorId: userObj.uid,
-    // });
+    if (attachment !== "") {
+      const attachmentRef = storageService
+        .ref()
+        .child(`${userObj.uid}/${uuidv4()}`);
+      const response = await attachmentRef.putString(attachment, "data_url");
+      attachmentUrl = await response.ref.getDownloadURL();
+    }
 
-    // setQweet("");
+    const qweetObj = {
+      text: qweet,
+      createdAt: Date.now(),
+      creatorId: userObj.uid,
+      attachmentUrl,
+    };
+
+    await dbService.collection("qweets").add(qweetObj);
+    setQweet("");
+    setAttachment("");
   };
 
   const onChange = (e) => {

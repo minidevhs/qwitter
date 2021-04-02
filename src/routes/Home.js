@@ -5,6 +5,7 @@ import Qweet from "components/Qweet";
 const Home = ({ userObj }) => {
   const [qweet, setQweet] = useState("");
   const [qweets, setQweets] = useState([]);
+  const [attachment, setAttachment] = useState();
 
   useEffect(() => {
     dbService.collection("qweets").onSnapshot((snapshot) => {
@@ -45,10 +46,15 @@ const Home = ({ userObj }) => {
     // FileReader API (MDN)
     const reader = new FileReader();
     reader.onloadend = (finishedEvent) => {
-      console.log(finishedEvent);
+      const {
+        currentTarget: { result },
+      } = finishedEvent;
+      setAttachment(result);
     };
     reader.readAsDataURL(theFile);
   };
+
+  const onClearAttachment = () => setAttachment(null);
 
   return (
     <div>
@@ -62,6 +68,12 @@ const Home = ({ userObj }) => {
         />
         <input type="file" accept="image/*" onChange={onFileChange} />
         <input type="submit" value="Qweet" />
+        {attachment && (
+          <div>
+            <img src={attachment} width="50px" height="50px" alt="attachment" />
+            <button onClick={onClearAttachment}>Clear</button>
+          </div>
+        )}
       </form>
       <div>
         {qweets.map((qweet) => (

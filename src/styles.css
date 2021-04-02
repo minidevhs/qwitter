@@ -179,7 +179,7 @@ form {
   position: relative;
   display: flex;
   flex-direction: column;
-  color: black;
+  color: rgba(0, 0, 0, 0.9);
 }
 
 .qweet h4 {
@@ -206,6 +206,11 @@ form {
 
 .qweet__actions span:first-child {
   margin-right: 10px;
+}
+
+.qweet .username {
+  font-weight: bold;
+  color: black;
 }
 
 /* Auth */

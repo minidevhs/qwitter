@@ -27,6 +27,7 @@ const QweetFactory = ({ userObj }) => {
       text: qweet,
       createdAt: Date.now(),
       creatorId: userObj.uid,
+      creatorName: userObj.displayName,
       attachmentUrl,
     };
 

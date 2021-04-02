@@ -41,6 +41,9 @@ const Qweet = ({ qweetObj, isOwner }) => {
           {isOwner && (
             <>
               <form onSubmit={onSubmit} className="container qweetEdit">
+                <div className="username_box">
+                  <h4 className="username">{qweetObj.creatorName}</h4>
+                </div>
                 <input
                   onChange={onChange}
                   type="text"
@@ -60,6 +63,9 @@ const Qweet = ({ qweetObj, isOwner }) => {
         </>
       ) : (
         <>
+          <div className="username_box">
+            <h4 className="username">{qweetObj.creatorName}</h4>
+          </div>
           <h4>{qweetObj.text}</h4>
           {qweetObj.attachmentUrl && (
             <img src={qweetObj.attachmentUrl} alt="attachment" />

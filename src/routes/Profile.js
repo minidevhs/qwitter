@@ -25,6 +25,7 @@ const Profile = ({ refreshUser, userObj }) => {
       await userObj.updateProfile({
         displayName: newDisplayName,
       });
+      refreshUser();
     }
   };
 

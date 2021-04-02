@@ -40,6 +40,7 @@ const Auth = () => {
   };
 
   const toggleAccount = () => setNewAccount((prev) => !prev); // 이전과 반대되는 값을 반환
+
   const onSocialClick = async (e) => {
     const {
       target: { name },

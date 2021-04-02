@@ -6,7 +6,7 @@ import Qweet from "components/Qweet";
 const Home = ({ userObj }) => {
   const [qweet, setQweet] = useState("");
   const [qweets, setQweets] = useState([]);
-  const [attachment, setAttachment] = useState();
+  const [attachment, setAttachment] = useState("");
 
   useEffect(() => {
     dbService.collection("qweets").onSnapshot((snapshot) => {

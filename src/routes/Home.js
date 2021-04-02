@@ -7,13 +7,14 @@ const Home = ({ userObj }) => {
   const [qweets, setQweets] = useState([]);
 
   useEffect(() => {
-    dbService.collection("qweets").onSnapshot((snapshot) => {
+    const getData = dbService.collection("qweets").onSnapshot((snapshot) => {
       const qweetArray = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
       setQweets(qweetArray);
     });
+    return () => getData();
   }, []);
 
   return (

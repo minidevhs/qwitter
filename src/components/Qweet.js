@@ -11,6 +11,8 @@ const Qweet = ({ qweetObj, isOwner }) => {
     const ok = window.confirm("Are you sure you want to delete this qweet?");
     if (ok) {
       await dbService.doc(`qweets/${qweetObj.id}`).delete();
+    }
+    if (qweetObj.attachmentUrl !== "") {
       await storageService.refFromURL(qweetObj.attachmentUrl).delete();
     }
   };
